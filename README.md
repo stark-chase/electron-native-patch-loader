@@ -5,6 +5,7 @@ The electron-native-patch-loader is equipped with three levels of configuration 
 1. patches.json file in the directory where the loader is installed
 2. user-defined JSON files mentioned in the configuration in webpack.config.js
 3. directly injected replacement rules in the webpack.config.js file.
+
 The precedence is as follows:
 1. Injected rules have the highest priority
 2. Then comes the configuration in user-defined files
