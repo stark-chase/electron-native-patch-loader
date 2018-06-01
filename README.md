@@ -35,3 +35,22 @@ Given below is an example of sqlite3 replacement rules.
 Every native module has a unique identifier for its rule definition. Then comes the **test** property which should be a regular expression for testing the file name where patches should be applied. In the property **patches** comes the array of concrete substitutions. Each substitution rule has a **find** and **isFindRegExp** property. **isFindRegExp** defines the type of the **find** property. If it is **true** then **find** must be a regular expression otherwise it is a plain text to be searched. Finally **replace** property contains text to be placed instead of the text defined by **find** property.
 
 ## Configuration of the loader in webpack.config.js file
+The configuration of this loader in webpack.config.js file is quite simple. 
+```javascript
+rules: 
+    [
+        {
+            test: /\.js$/,
+            use: { 
+                loader: "electron-native-patch-loader",
+                options: {
+                    files: ["file1.json", "file2.json"],
+                    custom: {
+                        ...
+                    }
+                }
+            }
+        }
+    ]   
+```
+First the **test** property should be applied to all Javascript files. The options of the loader are simple. The **files** property defines the list of JSON files containing the replacement rules. The **custom** property is used for injecting these rules directly into the **webpack.config.js**.
