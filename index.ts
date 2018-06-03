@@ -54,13 +54,22 @@ function isObject(item) {
     return mergeDeep(target, ...sources);
 }
 
+function prepareReplaceString(replaceString: string) {
+    let pluginPath = __dirname;
+    pluginPath = JSON.stringify(pluginPath);
+    pluginPath = pluginPath.substring(1, pluginPath.length - 1);
+    replaceString = replaceString.replace("[plugin_path]", pluginPath);
+    return replaceString;
+}
+
 function applyPatches(patches: any[], content: string) {
     for(let patch of patches) {
+        let replace = prepareReplaceString(patch.replace);
         if(patch.isFindRegExp) {
             let findRegExp = new RegExp(patch.find);
-            content = content.replace(findRegExp, patch.replace);
+            content = content.replace(findRegExp, replace);
         } else {
-            content = content.replace(patch.find, patch.replace);
+            content = content.replace(patch.find, replace);
         }
     }
     return content;

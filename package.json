@@ -1,6 +1,6 @@
 {
   "name": "electron-native-patch-loader",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The WebPack loader to solve incompatibilities between WebPack and native modules",
   "main": "index.js",
   "scripts": {

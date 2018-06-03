@@ -56,15 +56,23 @@ function mergeDeep(target) {
     return mergeDeep.apply(void 0, [target].concat(sources));
     var _a, _b;
 }
+function prepareReplaceString(replaceString) {
+    var pluginPath = __dirname;
+    pluginPath = JSON.stringify(pluginPath);
+    pluginPath = pluginPath.substring(1, pluginPath.length - 1);
+    replaceString = replaceString.replace("[plugin_path]", pluginPath);
+    return replaceString;
+}
 function applyPatches(patches, content) {
     for (var _i = 0, patches_1 = patches; _i < patches_1.length; _i++) {
         var patch = patches_1[_i];
+        var replace = prepareReplaceString(patch.replace);
         if (patch.isFindRegExp) {
             var findRegExp = new RegExp(patch.find);
-            content = content.replace(findRegExp, patch.replace);
+            content = content.replace(findRegExp, replace);
         }
         else {
-            content = content.replace(patch.find, patch.replace);
+            content = content.replace(patch.find, replace);
         }
     }
     return content;

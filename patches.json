@@ -10,7 +10,7 @@
             {
                 "find": "require(binding_path);",
                 "isFindRegExp": false,
-                "replace": "require('./binding/node-v57-win32-x64/node_sqlite3.node')"
+                "replace": "require('electron-native-loader![plugin_path]/resolve.node?lib=node_sqlite3.node')"
             }
         ]
     }
