@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "additionalProperties": {
+        "type": "object",
+        "properties": {
+            "test": {
+                "type": "string" 
+            },
+            "patches": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "find": { "type": "string" },
+                        "isFindRegExp": {"type": "boolean" },
+                        "replace": { "type": "string" }
+                    }                    
+                }
+            }
+        },
+        "additionalProperties": false
+    }
+}

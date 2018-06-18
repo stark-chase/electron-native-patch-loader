@@ -1,33 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var loader_utils_1 = require("loader-utils");
+var validate = require("@webpack-contrib/schema-utils");
 var fs = require("fs");
 var path = require("path");
 // configuration variables
 var loaderName = "Electron Native Patch Loader";
 var loaderPackageName = "electron-native-patch-loader";
 var defaultOptionFile = "patches.json";
-// Options schema
-var schema = {
-    type: 'object',
-    additionalProperties: {
-        type: "object",
-        properties: {
-            test: "string",
-            patches: {
-                type: "array",
-                items: {
-                    type: "object",
-                    properties: {
-                        find: "string",
-                        isFindRegExp: "boolean",
-                        replace: "string"
-                    }
-                }
-            }
-        }
-    }
-};
+// Patch and options schema
+var patchConfigSchema = require("./patch-config.schema.json");
+var optionsSchema = require("./options.schema.json");
+optionsSchema.properties.custom = patchConfigSchema;
 // Deep object merge taken from this post:
 // URL: https://stackoverflow.com/questions/27936772/how-to-deep-merge-instead-of-shallow-merge
 function isObject(item) {
@@ -103,7 +87,9 @@ function loadDefaultOptions() {
         return {};
     }
     var options = fs.readFileSync(filePath).toString();
-    return JSON.parse(options);
+    options = JSON.parse(options);
+    validate({ name: "ElectronNativePatchLoader", schema: patchConfigSchema, target: options });
+    return options;
 }
 var defaultOptions = loadDefaultOptions();
 var optionsFromFiles = {};
@@ -131,20 +117,19 @@ function loadOptionsFromFiles(files) {
     // set the loaded flag
     optionsLoadedFlag = true;
 }
-// TODO: 
-// 3. Check, how to validate each options by the schema
 function default_1(source) {
     // get options and set defaults
     var options = loader_utils_1.getOptions(this);
     options = options || {};
     options.files = options.files || [];
     options.custom = options.custom || {};
+    validate({ name: "ElectronNativePatchLoader", schema: optionsSchema, target: options });
     // load options from file
     loadOptionsFromFiles(options.files);
     // merge patch options from various sources
     var patchOptions = {};
     mergeDeep(patchOptions, defaultOptions, optionsFromFiles, options.custom);
-    // validateOptions(schema, options, loaderName);
+    validate({ name: "ElectronNativePatchLoader", schema: patchConfigSchema, target: patchOptions });
     var target = transformContent(patchOptions, this.resourcePath, source);
     return target;
 }
