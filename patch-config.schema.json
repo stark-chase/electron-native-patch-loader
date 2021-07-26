@@ -12,6 +12,7 @@
                     "type": "object",
                     "properties": {
                         "find": { "type": "string" },
+                        "findRegExpFlags": { "type": "string" },
                         "isFindRegExp": {"type": "boolean" },
                         "replace": { "type": "string" }
                     }                    

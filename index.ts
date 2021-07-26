@@ -49,7 +49,7 @@ function applyPatches(patches: any[], content: string) {
     for(let patch of patches) {
         let replace = prepareReplaceString(patch.replace);
         if(patch.isFindRegExp) {
-            let findRegExp = new RegExp(patch.find);
+            let findRegExp = new RegExp(patch.find, path.findRegExpFlags);
             content = content.replace(findRegExp, replace);
         } else {
             content = content.replace(patch.find, replace);
