@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "@webpack-contrib/schema-utils": "^1.0.0-beta.0",
-    "i": "^0.3.6"
+    "i": "^0.3.7"
   }
 }
